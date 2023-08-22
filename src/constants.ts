@@ -9,7 +9,7 @@ export const octillion = 1e27; // 10^27;
 export const nonillion = 1e30; // 10^30;
 
 export const atomic = {
-  0: 'нол',
+  0: 'нул',
   1: 'сад',
   2: 'кьвед',
   3: 'пуд',

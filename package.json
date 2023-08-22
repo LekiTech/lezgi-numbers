@@ -1,18 +1,28 @@
 {
-  "name": "lezginumbers",
+  "name": "lezgi-numbers",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
   "scripts": {
+    "test:generate-output": "jest --json --outputFile=.jest-test-results.json",
+    "test": "jest --collect-coverage --config jest.config.js",
     "start": "ts-node src/index.ts",
-    "build": "tsc"
+    "prebuild": "npm run test",
+    "build": "tsc & webpack --config webpack.config.js"
   },
   "author": "Kamran Tadzjibov",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
+    "@types/jest": "^29.5.4",
     "@types/node": "17.0.18",
+    "jest": "^29.6.3",
     "prettier": "2.8.8",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.4.4",
     "ts-node": "10.5.0",
-    "typescript": "4.5.5"
+    "typescript": "4.5.5",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

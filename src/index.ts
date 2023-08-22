@@ -354,31 +354,3 @@ export function numToLezgi(num: number): string {
     return getCompound(num);
   }
 }
-
-const tests = [
-  { num: 1986, expected: 'агъзурни кIуьд вишни кьудкъанни ругуд' },
-  { num: 1917, expected: 'агъзурни кIуьд вишни цIерид' },
-  { num: 1937, expected: 'агъзурни кIуьд вишни къанни цIерид' },
-  {
-    num: 4113267557,
-    expected:
-      'кьуд миллиардни вишни цIипуд миллионни кьве вишни пудкъанни ирид агъзурни вад вишни яхцIурни цIерид',
-  },
-  { num: 2024, expected: 'кьве агъзурни къанни кьуд' },
-  { num: 100000, expected: 'виш агъзур' },
-  { num: 2000000, expected: 'кьве миллион' },
-  { num: 2000001, expected: 'кьве миллионни сад' },
-  { num: 700, expected: 'ирид виш' },
-  { num: 1001, expected: 'агъзурни сад' },
-  { num: 102, expected: 'вишни кьвед' },
-];
-
-for (const test of tests) {
-  const result = numToLezgi(test.num);
-  const passed = result === test.expected;
-  if (passed) {
-    console.log('Test passed: ', test.num, ' = ', result);
-  } else {
-    console.error("FAILED\n  expected =\t'" + test.expected + "'\n  actual =\t'" + result + "'");
-  }
-}
