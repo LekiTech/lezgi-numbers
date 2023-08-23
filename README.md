@@ -20,7 +20,7 @@ npm i lezgi-numbers
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.0/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.0.2/dist/lezgi-numbers.js"></script>
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьу�
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.0/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.0.2/dist/lezgi-numbers.js"></script>
 <script>
   alert(LezgiNumbers.numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 </script>
