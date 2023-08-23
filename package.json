@@ -11,6 +11,19 @@
     "prebuild": "npm run test",
     "build": "tsc & webpack --config webpack.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LekiTech/lezgi-numbers"
+  },
+  "keywords": [
+    "lezgi",
+    "numbers",
+    "converter",
+    "natural language",
+    "numerals",
+    "tool",
+    "лезги чIал"
+  ],
   "author": "Kamran Tadzjibov",
   "license": "GPL-3.0",
   "devDependencies": {

@@ -1,23 +1,33 @@
 import { numToLezgi } from '../src/index';
 
-const tests = [
-  { input: 1986, expected: 'агъзурни кIуьд вишни кьудкъанни ругуд' },
-  { input: 1917, expected: 'агъзурни кIуьд вишни цIерид' },
-  { input: 1937, expected: 'агъзурни кIуьд вишни къанни цIерид' },
-  {
-    input: 4113267557,
-    expected:
-      'кьуд миллиардни вишни цIипуд миллионни кьве вишни пудкъанни ирид агъзурни вад вишни яхцIурни цIерид',
-  },
-  { input: 2024, expected: 'кьве агъзурни къанни кьуд' },
-  { input: 100000, expected: 'виш агъзур' },
-  { input: 2000000, expected: 'кьве миллион' },
-  { input: 2000001, expected: 'кьве миллионни сад' },
-  { input: 700, expected: 'ирид виш' },
-  { input: 1001, expected: 'агъзурни сад' },
-  { input: 102, expected: 'вишни кьвед' },
+const correctValues: [number, string][] = [
+  [1986, 'агъзурни кIуьд вишни кьудкъанни ругуд'],
+  [1917, 'агъзурни кIуьд вишни цIерид'],
+  [1937, 'агъзурни кIуьд вишни къанни цIерид'],
+  [
+    4113267557,
+    'кьуд миллиардни вишни цIипуд миллионни кьве вишни пудкъанни ирид агъзурни вад вишни яхцIурни цIерид',
+  ],
+  [2024, 'кьве агъзурни къанни кьуд'],
+  [100000, 'виш агъзур'],
+  [2000000, 'кьве миллион'],
+  [2000001, 'кьве миллионни сад'],
+  [700, 'ирид виш'],
+  [1001, 'агъзурни сад'],
+  [102, 'вишни кьвед'],
+  [-102, 'минус вишни кьвед'],
 ];
 
-test.each(tests)('add(%j) should equal %d', ({ input, expected }) => {
+test.each(correctValues)('convert (%j) should equal "%s"', (input, expected) => {
   expect(numToLezgi(input)).toEqual(expected);
+});
+
+const nanValues = [NaN, Infinity, -Infinity, undefined, null, 'random string', {}, []];
+test.each(nanValues)('(%j) should throw an error', (input: any) => {
+  expect(() => numToLezgi(input)).toThrow();
+});
+
+const floatValues = [1.1, 1.5, 1.9, 1.00000000000001, 1.99999999999999];
+test.each(floatValues)('(%j) should throw an error', (input: any) => {
+  expect(() => numToLezgi(input)).toThrow();
 });

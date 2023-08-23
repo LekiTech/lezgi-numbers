@@ -26,9 +26,7 @@ function separateNumberIntoUnits(n: number): number[] {
     n = Math.floor(n / 10);
     i *= 10;
   }
-  // console.log(JSON.stringify(arr, null, 2));
   const result = groupNumberUnitsToLezgiRange(arr);
-  // console.log(JSON.stringify(result, null, 2));
   return result;
 }
 
@@ -340,6 +338,14 @@ function getCompound(num: number): string {
   return result.join('').replaceAll('  ', ' ').trim();
 }
 
+function getAtomicOrCompound(num: number): string {
+  if (atomic[num]) {
+    return atomic[num];
+  } else {
+    return getCompound(num);
+  }
+}
+
 /**
  *
  * Main method to convert a number to Lezgi
@@ -348,9 +354,14 @@ function getCompound(num: number): string {
  * @returns string representation of the provided number in Lezgi language
  */
 export function numToLezgi(num: number): string {
-  if (atomic[num]) {
-    return atomic[num];
-  } else {
-    return getCompound(num);
+  if (isNaN(num)) {
+    throw new Error('Provided value is not a number');
   }
+  if (!Number.isInteger(num)) {
+    throw new Error('Provided number is not an integer. Currently only integers are supported!');
+  }
+  const isNegative = num < 0;
+  num = Math.abs(num);
+  const result = getAtomicOrCompound(num);
+  return isNegative ? 'минус ' + result : result;
 }
