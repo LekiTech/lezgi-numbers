@@ -1,6 +1,6 @@
 {
   "name": "lezgi-numbers",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Convert numbers to Lezgi numerals in your Node.js project or in browser using this ts/js library",
   "main": "./lib/index.js",
   "types": "./lib/types/index.d.ts",

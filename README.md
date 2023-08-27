@@ -6,6 +6,8 @@ This TypeScript library provides a function for converting numbers to Lezgi nume
 
 It can be used in both Node.js and browser environments.
 
+For the best results, choose the numbers between `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` which are equal to `-9007199254740991` and `9007199254740991` respectively.
+
 - `lib` directory contains the compiled JavaScript code with the type definitions.
 - `dist` directory contains the compiled minified JavaScript file ready for use in browser environments.
 
@@ -20,7 +22,7 @@ npm i lezgi-numbers
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.2/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
 ```
 
 ## Usage
@@ -42,7 +44,7 @@ console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьу�
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.2/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
 <script>
   alert(LezgiNumbers.numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 </script>
