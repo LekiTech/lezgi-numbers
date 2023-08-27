@@ -80,26 +80,24 @@ function getTenPlusBase(num: number): string {
   return base10 + 'е';
 }
 
-function getTwentyPlusBase(): string {
-  // no need in checking if num is 20, because 20 exist in constants
-  return 'къанни ';
+function getTwentyPlusBase(num: number): string {
+  return num === 20 ? atomic[20] : 'къанни ';
 }
 
 function getThirtyPlusBase(num: number): string {
-  return getTwentyPlusBase() + getTenPlusBase(num - 20);
+  return getTwentyPlusBase(num) + getTenPlusBase(num - 20);
 }
 
-function getFourtyPlusBase(): string {
-  // no need in checking if num is 40, because 40 exist in constants
-  return atomic[40] + 'ни ';
+function getFourtyPlusBase(num: number): string {
+  return num === 40 ? atomic[40] : atomic[40] + 'ни ';
 }
 
 function getFiftyPlusBase(num: number): string {
-  return getFourtyPlusBase() + getTenPlusBase(num - 40);
+  return getFourtyPlusBase(num) + getTenPlusBase(num - 40);
 }
 
 function getSixtyPlusBase(num: number): string {
-  return num === 60 ? atomic[3] + atomic[20] : atomic[3] + getTwentyPlusBase();
+  return num === 60 ? atomic[3] + atomic[20] : atomic[3] + getTwentyPlusBase(num);
 }
 
 function getSeventyPlusBase(num: number): string {
@@ -107,7 +105,7 @@ function getSeventyPlusBase(num: number): string {
 }
 
 function getEightyPlusBase(num: number): string {
-  return num === 80 ? atomic[4] + atomic[20] : atomic[4] + getTwentyPlusBase();
+  return num === 80 ? atomic[4] + atomic[20] : atomic[4] + getTwentyPlusBase(num);
 }
 
 function getNinetyPlusBase(num: number): string {
@@ -248,13 +246,13 @@ function getCompound(num: number): string {
       return getTenPlusBase(unit + followUpNumber);
     }
     if (unit === 20) {
-      return getTwentyPlusBase();
+      return getTwentyPlusBase(unit + followUpNumber);
     }
     if (unit === 30) {
       return getThirtyPlusBase(unit + followUpNumber);
     }
     if (unit === 40) {
-      return getFourtyPlusBase();
+      return getFourtyPlusBase(unit + followUpNumber);
     }
     if (unit === 50) {
       return getFiftyPlusBase(unit + followUpNumber);

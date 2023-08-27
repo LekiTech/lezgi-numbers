@@ -33,3 +33,13 @@ export declare const atomic: {
     1e+27: string;
     1e+30: string;
 };
+export declare const MINUS = "\u043C\u0438\u043D\u0443\u0441";
+export declare const numerals: Record<string, {
+    value: number;
+    requiresNext?: boolean;
+    allowedNext?: {
+        minStr: string;
+        min: number;
+        max: number;
+    };
+}>;

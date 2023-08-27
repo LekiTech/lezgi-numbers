@@ -29,16 +29,23 @@ npm i lezgi-numbers
 
 ### Node.js
 
-```js
-const { numToLezgi } = require('lezgi-numbers');
+Import package like:
 
-console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
+```js
+const { numToLezgi, lezgiToNum } = require('lezgi-numbers');
 ```
 
-```ts
-import { numToLezgi } from 'lezgi-numbers';
+Or
 
+```ts
+import { numToLezgi, lezgiToNum } from 'lezgi-numbers';
+```
+
+And then use it:
+
+```js
 console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
+console.log(lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
 ```
 
 ### Browser
@@ -46,6 +53,13 @@ console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьу�
 ```html
 <script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
 <script>
-  alert(LezgiNumbers.numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
+  try {
+    // Convert numbers to Lezgi numerals
+    alert(LezgiNumbers.numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
+    // Convert Lezgi numerals to numbers
+    alert(LezgiNumbers.lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
+  } catch (e) {
+    alert(e.message);
+  }
 </script>
 ```
