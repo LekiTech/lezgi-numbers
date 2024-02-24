@@ -64,170 +64,173 @@ function groupNumberUnitsToLezgiRange(arr: number[]): number[] {
   return result;
 }
 
-function getTenPlusBase(num: number): string {
+function getTenPlusBase(num: number): string[] {
   if (num < 10 || num >= 20) {
     throw new Error('Invalid number');
   }
   if (num === 10) {
-    return atomic[10];
+    return [atomic[10]];
   }
   const base10 = atomic[10].slice(0, -2);
   if (num === 11 || num === 15 || num === 16) {
-    return base10 + 'у';
+    return [base10 + 'у'];
   } else if (num < 15) {
-    return base10 + 'и';
+    return [base10 + 'и'];
   }
-  return base10 + 'е';
+  return [base10 + 'е'];
 }
 
-function getTwentyPlusBase(num: number): string {
-  return num === 20 ? atomic[20] : 'къанни ';
+function getTwentyPlusBase(num: number): string[] {
+  return num === 20 ? [atomic[20]] : ['къанни'];
 }
 
-function getThirtyPlusBase(num: number): string {
-  return getTwentyPlusBase(num) + getTenPlusBase(num - 20);
+function getThirtyPlusBase(num: number): string[] {
+  return [...getTwentyPlusBase(num), ...getTenPlusBase(num - 20)];
 }
 
-function getFourtyPlusBase(num: number): string {
-  return num === 40 ? atomic[40] : atomic[40] + 'ни ';
+function getFourtyPlusBase(num: number): string[] {
+  return num === 40 ? [atomic[40]] : [atomic[40], 'ни'];
 }
 
-function getFiftyPlusBase(num: number): string {
-  return getFourtyPlusBase(num) + getTenPlusBase(num - 40);
+function getFiftyPlusBase(num: number): string[] {
+  return [...getFourtyPlusBase(num), ...getTenPlusBase(num - 40)];
 }
 
-function getSixtyPlusBase(num: number): string {
-  return num === 60 ? atomic[3] + atomic[20] : atomic[3] + getTwentyPlusBase(num);
+function getSixtyPlusBase(num: number): string[] {
+  return num === 60 ? [atomic[3], atomic[20]] : [atomic[3], ...getTwentyPlusBase(num)];
 }
 
-function getSeventyPlusBase(num: number): string {
-  return getSixtyPlusBase(61) + getTenPlusBase(num - 60);
+function getSeventyPlusBase(num: number): string[] {
+  return [...getSixtyPlusBase(61), ...getTenPlusBase(num - 60)];
 }
 
-function getEightyPlusBase(num: number): string {
-  return num === 80 ? atomic[4] + atomic[20] : atomic[4] + getTwentyPlusBase(num);
+function getEightyPlusBase(num: number): string[] {
+  return num === 80 ? [atomic[4], atomic[20]] : [atomic[4], ...getTwentyPlusBase(num)];
 }
 
-function getNinetyPlusBase(num: number): string {
-  return getEightyPlusBase(81) + getTenPlusBase(num - 80);
+function getNinetyPlusBase(num: number): string[] {
+  return [...getEightyPlusBase(81), ...getTenPlusBase(num - 80)];
 }
 
-function getHundredPlusBase(num: number): string {
-  return num % 100 === 0 ? atomic[100] : atomic[100] + 'ни ';
+function getHundredPlusBase(num: number): string[] {
+  return num % 100 === 0 ? [atomic[100]] : [atomic[100], 'ни'];
 }
 
-function getHundredPlusNumCount(numCount: number): string {
-  return numCount === 2 ? atomic[numCount].slice(0, -1) : atomic[numCount];
+function getHundredPlusNumCount(numCount: number): string[] {
+  if (atomic[numCount] !== undefined) {
+    return numCount === 2 ? [atomic[numCount].slice(0, -1)] : [atomic[numCount]];
+  }
+  return undefined;
 }
 
-function getBetweenHundredAndThousand(num: number, followUpNumber: number): string {
+function getBetweenHundredAndThousand(num: number, followUpNumber: number): string[] {
   const hundredsCount = num % 100 != 0 ? num - (num % 100) : num / 100;
   const hundredsCountInLezgi = getHundredPlusNumCount(hundredsCount);
-  return hundredsCountInLezgi + ' ' + getHundredPlusBase(num + followUpNumber);
+  return [...hundredsCountInLezgi, ' ', ...getHundredPlusBase(num + followUpNumber)];
 }
 
-function getThousandPlusBase(num: number): string {
-  return num % 1000 === 0 ? atomic[1000] : atomic[1000] + 'ни ';
+function getThousandPlusBase(num: number): string[] {
+  return num % 1000 === 0 ? [atomic[1000]] : [atomic[1000], 'ни'];
 }
 
-function getBetweenThousandAndMillion(num: number, followUpNumber: number): string {
+function getBetweenThousandAndMillion(num: number, followUpNumber: number): string[] {
   const thousandsCount = num % 1000 != 0 ? num - (num % 1000) : num / 1000;
   const thousandsCountInLezgi =
     getHundredPlusNumCount(thousandsCount) ?? getCompound(thousandsCount);
-  return thousandsCountInLezgi + ' ' + getThousandPlusBase(num + followUpNumber);
+  return [...thousandsCountInLezgi, ' ', ...getThousandPlusBase(num + followUpNumber)];
 }
 
-function getMillionPlusBase(num: number) {
-  return num % million === 0 ? atomic[million] : atomic[million] + 'ни ';
+function getMillionPlusBase(num: number): string[] {
+  return num % million === 0 ? [atomic[million]] : [atomic[million], 'ни '];
 }
 
-function getBetweenMillionAndBillion(num: number, followUpNumber: number): string {
+function getBetweenMillionAndBillion(num: number, followUpNumber: number): string[] {
   const millionsCount = num % million != 0 ? num - (num % million) : num / million;
   const millionsCountInLezgi = getHundredPlusNumCount(millionsCount) ?? getCompound(millionsCount);
-  return millionsCountInLezgi + ' ' + getMillionPlusBase(num + followUpNumber);
+  return [...millionsCountInLezgi, ' ', ...getMillionPlusBase(num + followUpNumber)];
 }
 
-function getBillionPlusBase(num: number): string {
-  return num % billion === 0 ? atomic[billion] : atomic[billion] + 'ни ';
+function getBillionPlusBase(num: number): string[] {
+  return num % billion === 0 ? [atomic[billion]] : [atomic[billion], 'ни'];
 }
 
-function getBetweenBillionAndTrillion(num: number, followUpNumber: number): string {
+function getBetweenBillionAndTrillion(num: number, followUpNumber: number): string[] {
   const billionsCount = num % billion != 0 ? num - (num % billion) : num / billion;
   const billionsCountInLezgi = getHundredPlusNumCount(billionsCount) ?? getCompound(billionsCount);
-  return billionsCountInLezgi + ' ' + getBillionPlusBase(num + followUpNumber);
+  return [...billionsCountInLezgi, ' ', ...getBillionPlusBase(num + followUpNumber)];
 }
 
-function getTrillionPlusBase(num: number): string {
-  return num % trillion === 0 ? atomic[trillion] : atomic[trillion] + 'ни ';
+function getTrillionPlusBase(num: number): string[] {
+  return num % trillion === 0 ? [atomic[trillion]] : [atomic[trillion], 'ни'];
 }
 
-function getBetweenTrillionAndQuadrillion(num: number, followUpNumber: number): string {
+function getBetweenTrillionAndQuadrillion(num: number, followUpNumber: number): string[] {
   const trillionsCount = num % trillion != 0 ? num - (num % trillion) : num / trillion;
   const trillionsCountInLezgi =
     getHundredPlusNumCount(trillionsCount) ?? getCompound(trillionsCount);
-  return trillionsCountInLezgi + ' ' + getTrillionPlusBase(num + followUpNumber);
+  return [...trillionsCountInLezgi, ' ', ...getTrillionPlusBase(num + followUpNumber)];
 }
 
-function getQuadrillionPlusBase(num: number): string {
-  return num % quadrillion === 0 ? atomic[quadrillion] : atomic[quadrillion] + 'ни ';
+function getQuadrillionPlusBase(num: number): string[] {
+  return num % quadrillion === 0 ? [atomic[quadrillion]] : [atomic[quadrillion], 'ни'];
 }
 
-function getBetweenQuadrillionAndQuintillion(num: number, followUpNumber: number): string {
+function getBetweenQuadrillionAndQuintillion(num: number, followUpNumber: number): string[] {
   const quadrillionsCount = num % quadrillion != 0 ? num - (num % quadrillion) : num / quadrillion;
   const quadrillionsCountInLezgi =
     getHundredPlusNumCount(quadrillionsCount) ?? getCompound(quadrillionsCount);
-  return quadrillionsCountInLezgi + ' ' + getQuadrillionPlusBase(num + followUpNumber);
+  return [...quadrillionsCountInLezgi, ' ', ...getQuadrillionPlusBase(num + followUpNumber)];
 }
 
-function getQuintillionPlusBase(num: number): string {
-  return num % quintillion === 0 ? atomic[quintillion] : atomic[quintillion] + 'ни ';
+function getQuintillionPlusBase(num: number): string[] {
+  return num % quintillion === 0 ? [atomic[quintillion]] : [atomic[quintillion], 'ни'];
 }
 
-function getBetweenQuintillionAndSextillion(num: number, followUpNumber: number): string {
+function getBetweenQuintillionAndSextillion(num: number, followUpNumber: number): string[] {
   const quintillionsCount = num % quintillion != 0 ? num - (num % quintillion) : num / quintillion;
   const quintillionsCountInLezgi =
     getHundredPlusNumCount(quintillionsCount) ?? getCompound(quintillionsCount);
-  return quintillionsCountInLezgi + ' ' + getQuintillionPlusBase(num + followUpNumber);
+  return [...quintillionsCountInLezgi, ' ', ...getQuintillionPlusBase(num + followUpNumber)];
 }
 
-function getSextillionPlusBase(num: number): string {
-  return num % sextillion === 0 ? atomic[sextillion] : atomic[sextillion] + 'ни ';
+function getSextillionPlusBase(num: number): string[] {
+  return num % sextillion === 0 ? [atomic[sextillion]] : [atomic[sextillion], 'ни'];
 }
 
-function getBetweenSextillionAndSeptillion(num: number, followUpNumber: number): string {
+function getBetweenSextillionAndSeptillion(num: number, followUpNumber: number): string[] {
   const sextillionsCount = num % sextillion != 0 ? num - (num % sextillion) : num / sextillion;
   const sextillionsCountInLezgi =
     getHundredPlusNumCount(sextillionsCount) ?? getCompound(sextillionsCount);
-  return sextillionsCountInLezgi + ' ' + getSextillionPlusBase(num + followUpNumber);
+  return [...sextillionsCountInLezgi, ' ', ...getSextillionPlusBase(num + followUpNumber)];
 }
 
-function getSeptillionPlusBase(num: number): string {
-  return num % septillion === 0 ? atomic[septillion] : atomic[septillion] + 'ни ';
+function getSeptillionPlusBase(num: number): string[] {
+  return num % septillion === 0 ? [atomic[septillion]] : [atomic[septillion], 'ни'];
 }
 
-function getBetweenSeptillionAndOctillion(num: number, followUpNumber: number): string {
+function getBetweenSeptillionAndOctillion(num: number, followUpNumber: number): string[] {
   const septillionsCount = num % septillion != 0 ? num - (num % septillion) : num / septillion;
   const septillionsCountInLezgi =
     getHundredPlusNumCount(septillionsCount) ?? getCompound(septillionsCount);
-  return septillionsCountInLezgi + ' ' + getSeptillionPlusBase(num + followUpNumber);
+  return [...septillionsCountInLezgi, ' ', ...getSeptillionPlusBase(num + followUpNumber)];
 }
 
-function getOctillionPlusBase(num: number): string {
-  return num % octillion === 0 ? atomic[octillion] : atomic[octillion] + 'ни ';
+function getOctillionPlusBase(num: number): string[] {
+  return num % octillion === 0 ? [atomic[octillion]] : [atomic[octillion], 'ни'];
 }
 
-function getBetweenOctillionAndNonillion(num: number, followUpNumber: number): string {
+function getBetweenOctillionAndNonillion(num: number, followUpNumber: number): string[] {
   const octillionsCount = num % octillion != 0 ? num - (num % octillion) : num / octillion;
   const octillionsCountInLezgi =
     getHundredPlusNumCount(octillionsCount) ?? getCompound(octillionsCount);
-  return octillionsCountInLezgi + ' ' + getOctillionPlusBase(num + followUpNumber);
+  return [...octillionsCountInLezgi, ' ', ...getOctillionPlusBase(num + followUpNumber)];
 }
 
-function getNonillionPlusBase(num: number): string {
-  return num % nonillion === 0 ? atomic[nonillion] : atomic[nonillion] + 'ни ';
+function getNonillionPlusBase(num: number): string[] {
+  return num % nonillion === 0 ? [atomic[nonillion]] : [atomic[nonillion], 'ни'];
 }
 
-function getCompound(num: number): string {
+function getCompound(num: number): string[] {
   const units = separateNumberIntoUnits(num);
   const result = units.map((unit, i) => {
     if (
@@ -239,7 +242,7 @@ function getCompound(num: number): string {
         units[i - 1] === 70 ||
         units[i - 1] === 90)
     ) {
-      return atomic[7].slice(1);
+      return [atomic[7].slice(1)];
     }
     const followUpNumber = units.slice(i + 1).reduce((acc, num) => acc + num, 0);
     if (unit === 10) {
@@ -332,17 +335,38 @@ function getCompound(num: number): string {
     if (unit === nonillion) {
       return getNonillionPlusBase(unit + followUpNumber);
     }
-    return units.length > 1 && unit === 0 ? '' : atomic[unit] + ' ' || unit.toString();
+    return units.length > 1 && unit === 0 ? [''] : [atomic[unit] + ' ' || unit.toString()];
   });
-  return result.join('').replaceAll('  ', ' ').trim();
+  return result.flat(); //.join('').replaceAll('  ', ' ').trim();
 }
 
-function getAtomicOrCompound(num: number): string {
+function getAtomicOrCompound(num: number): string[] {
   if (atomic[num]) {
-    return atomic[num];
+    return [atomic[num]];
   } else {
     return getCompound(num);
   }
+}
+
+/**
+ *
+ * Function to convert an integer to Lezgi text representation as an array of strings
+ *
+ * @param num an integer number between `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` (`-9007199254740991` and `9007199254740991`)
+ * @returns string representation of the provided number in Lezgi language
+ * @example numToLezgi(1986) // 'агъзурни кIуьд вишни кьудкъанни ругуд'
+ */
+export function numToLezgiArray(num: number): string[] {
+  if (isNaN(num)) {
+    throw new Error('Provided value is not a number');
+  }
+  if (!Number.isInteger(num)) {
+    throw new Error('Provided number is not an integer. Currently only integers are supported!');
+  }
+  const isNegative = num < 0;
+  num = Math.abs(num);
+  const result = getAtomicOrCompound(num).filter((word) => word !== '');
+  return isNegative ? [MINUS, ...result] : result;
 }
 
 /**
@@ -354,14 +378,11 @@ function getAtomicOrCompound(num: number): string {
  * @example numToLezgi(1986) // 'агъзурни кIуьд вишни кьудкъанни ругуд'
  */
 export function numToLezgi(num: number): string {
-  if (isNaN(num)) {
-    throw new Error('Provided value is not a number');
-  }
-  if (!Number.isInteger(num)) {
-    throw new Error('Provided number is not an integer. Currently only integers are supported!');
-  }
-  const isNegative = num < 0;
-  num = Math.abs(num);
-  const result = getAtomicOrCompound(num);
-  return isNegative ? `${MINUS} ${result}` : result;
+  console.log(Object.values(atomic));
+  const resultArray = numToLezgiArray(num);
+  return resultArray
+    .map((word) => (word.endsWith('ни') || word === MINUS ? word + ' ' : word))
+    .join('')
+    .replaceAll('  ', ' ')
+    .trim();
 }
