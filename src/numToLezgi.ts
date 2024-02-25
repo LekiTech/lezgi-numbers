@@ -141,7 +141,7 @@ function getBetweenThousandAndMillion(num: number, followUpNumber: number): stri
 }
 
 function getMillionPlusBase(num: number): string[] {
-  return num % million === 0 ? [atomic[million]] : [atomic[million], 'ни '];
+  return num % million === 0 ? [atomic[million]] : [atomic[million], 'ни'];
 }
 
 function getBetweenMillionAndBillion(num: number, followUpNumber: number): string[] {
@@ -335,7 +335,7 @@ function getCompound(num: number): string[] {
     if (unit === nonillion) {
       return getNonillionPlusBase(unit + followUpNumber);
     }
-    return units.length > 1 && unit === 0 ? [''] : [atomic[unit] + ' ' || unit.toString()];
+    return units.length > 1 && unit === 0 ? [''] : [atomic[unit] || unit.toString()];
   });
   return result.flat(); //.join('').replaceAll('  ', ' ').trim();
 }
@@ -365,8 +365,11 @@ export function numToLezgiArray(num: number): string[] {
   }
   const isNegative = num < 0;
   num = Math.abs(num);
-  const result = getAtomicOrCompound(num).filter((word) => word !== '');
-  return isNegative ? [MINUS, ...result] : result;
+  const result = getAtomicOrCompound(num)
+    .filter((word) => word !== '')
+    .map((word) => (word.endsWith('ни') ? [word, ' '] : word))
+    .flat();
+  return isNegative ? [MINUS, ' ', ...result] : result;
 }
 
 /**
@@ -378,11 +381,12 @@ export function numToLezgiArray(num: number): string[] {
  * @example numToLezgi(1986) // 'агъзурни кIуьд вишни кьудкъанни ругуд'
  */
 export function numToLezgi(num: number): string {
-  console.log(Object.values(atomic));
   const resultArray = numToLezgiArray(num);
-  return resultArray
-    .map((word) => (word.endsWith('ни') || word === MINUS ? word + ' ' : word))
-    .join('')
-    .replaceAll('  ', ' ')
-    .trim();
+  return (
+    resultArray
+      // .map((word) => (word.endsWith('ни') || word === MINUS ? word + ' ' : word))
+      .join('')
+      .replaceAll('  ', ' ')
+      .trim()
+  );
 }

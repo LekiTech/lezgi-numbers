@@ -65,15 +65,15 @@ export function concatenateAudios(input: string[], output: string = 'concatenate
 }
 
 export function numToLezgiTTS(num: number): void {
-  const audioFiles = numToLezgiArray(num)
-    .map((numeral) => numeral.trim())
+  const lezgiNumeralArray = numToLezgiArray(num);
+  const audioFiles = lezgiNumeralArray
+    .map((numeral) => (numeral !== ' ' ? numeral.trim() : ' '))
     .filter((numeral) => numeral !== '')
-    .map((numeral) => path.join(__dirname, `../static/_${numeral}.mp3`));
+    .map((numeral) => path.join(__dirname, `../static/arthur/mp3/${numeral}.mp3`));
   concatenateAudios(audioFiles, `${num}.mp3`);
 }
 
-numToLezgiTTS(107);
-numToLezgiTTS(700);
+numToLezgiTTS(17);
 
 /*
 Unique audio parts are concatenated into a single audio file:
@@ -108,4 +108,7 @@ Unique audio parts are concatenated into a single audio file:
   "октиллион",
   "нониллион"
 ]
+  "рид",
+  "къанни",
+  "кьве",
 */
