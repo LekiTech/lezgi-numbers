@@ -27,7 +27,7 @@ function concatenateAudiosNode(urls: string[], outputFile: string) {
     .mergeToFile(outputFile, '/tmp');
 }
 
-function concatenateAudiosBrowser(urls) {
+function concatenateAudiosBrowser(urls: string[]) {
   // @ts-ignore
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
