@@ -1,6 +1,6 @@
 # Lezgi Numbers
 
-This TypeScript library provides a function for converting numbers to Lezgi numerals.
+This TypeScript library provides a function for converting numbers to Lezgi numerals and basic TTS (Text-to-Speech) support for Lezgi numerals.
 
 **Note**: _Currently only integers are supported._
 
@@ -22,7 +22,7 @@ npm i lezgi-numbers
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.1.0/dist/lezgi-numbers.js"></script>
 ```
 
 ## Usage
@@ -32,13 +32,13 @@ npm i lezgi-numbers
 Import package like:
 
 ```js
-const { numToLezgi, lezgiToNum } = require('lezgi-numbers');
+const { numToLezgi, lezgiToNum, numToLezgiTTS } = require('lezgi-numbers');
 ```
 
 Or
 
 ```ts
-import { numToLezgi, lezgiToNum } from 'lezgi-numbers';
+import { numToLezgi, lezgiToNum, numToLezgiTTS } from 'lezgi-numbers';
 ```
 
 And then use it:
@@ -46,18 +46,21 @@ And then use it:
 ```js
 console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 console.log(lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
+console.log(numToLezgiTTS(1986)); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
 ```
 
 ### Browser
 
 ```html
-<script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
+<script src="https://unpkg.com/lezgi-numbers@1.1.0/dist/lezgi-numbers.js"></script>
 <script>
   try {
     // Convert numbers to Lezgi numerals
     alert(LezgiNumbers.numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
     // Convert Lezgi numerals to numbers
     alert(LezgiNumbers.lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
+    // Play the audio of pronounced Lezgi numerals
+    LezgiNumbers.numToLezgiTTS(1986); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played
   } catch (e) {
     alert(e.message);
   }
