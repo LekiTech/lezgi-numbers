@@ -1,13 +1,21 @@
 import path from 'path';
 import { numToLezgiArray } from './numToLezgi';
 
-function concatenateAudiosNode(urls, outputFile) {
+function concatenateAudiosNode(urls: string[], outputFile: string) {
   const ffmpeg = require('fluent-ffmpeg');
   let command = ffmpeg();
 
   urls.forEach((file) => {
     command = command.input(file);
+    if (file.startsWith(' .')) {
+      const offset = 0.1;
+      command.inputOption(`-itsoffset ${offset}`);
+    }
   });
+
+  const filter = `amix=inputs=${urls.length}:duration=first:dropout_transition='0.3'`;
+  // urls.map((_, index) => `[${index}:a]`).join('') + `amix=inputs=${urls.length}:duration=longest`;
+  command.complexFilter(filter);
 
   command
     .on('error', (err) => {
@@ -60,11 +68,12 @@ export function numToLezgiTTS(num: number): void {
   const audioFiles = numToLezgiArray(num)
     .map((numeral) => numeral.trim())
     .filter((numeral) => numeral !== '')
-    .map((numeral) => path.join(__dirname, `../static/${numeral}.mp3`));
+    .map((numeral) => path.join(__dirname, `../static/_${numeral}.mp3`));
   concatenateAudios(audioFiles, `${num}.mp3`);
 }
 
 numToLezgiTTS(107);
+numToLezgiTTS(700);
 
 /*
 Unique audio parts are concatenated into a single audio file:
