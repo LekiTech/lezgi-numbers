@@ -50,7 +50,7 @@ And then use it:
 ```js
 console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 console.log(lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
-console.log(numToLezgiTTS(1986)); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
+numToLezgiTTS(1986); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
 ```
 
 ### Browser
