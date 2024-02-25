@@ -1,6 +1,10 @@
 # Lezgi Numbers
 
-This TypeScript library provides a function for converting numbers to Lezgi numerals and basic TTS (Text-to-Speech) support for Lezgi numerals.
+This TypeScript library provides functions for:
+
+- converting numbers to Lezgi numerals (`numToLezgi`)
+- converting Lezgi numerals to numbers (`lezgiToNum`)
+- generate basic TTS (Text-to-Speech) in Lezgi language for the given number (`numToLezgiTTS`)
 
 **Note**: _Currently only integers are supported._
 
