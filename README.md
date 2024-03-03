@@ -4,9 +4,7 @@ This TypeScript library provides functions for:
 
 - converting numbers to Lezgi numerals (`numToLezgi`)
 - converting Lezgi numerals to numbers (`lezgiToNum`)
-- generate basic TTS (Text-to-Speech) in Lezgi language for the given number
-  - `lezgiNumberTtsToFile` for Node.js - it saves the audio file to the provided path
-  - `playLezgiNumberTts` for browser - it plays the audio in the browser
+- generate basic TTS (Text-to-Speech) in Lezgi language for the given number using `playLezgiNumberTts` - it plays generated audio in the browser
 
 **Note**: _Currently only integers are supported._
 
