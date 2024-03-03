@@ -4,7 +4,9 @@ This TypeScript library provides functions for:
 
 - converting numbers to Lezgi numerals (`numToLezgi`)
 - converting Lezgi numerals to numbers (`lezgiToNum`)
-- generate basic TTS (Text-to-Speech) in Lezgi language for the given number (`numToLezgiTTS`)
+- generate basic TTS (Text-to-Speech) in Lezgi language for the given number
+  - `lezgiNumberTtsToFile` for Node.js - it saves the audio file to the provided path
+  - `playLezgiNumberTts` for browser - it plays the audio in the browser
 
 **Note**: _Currently only integers are supported._
 
@@ -50,7 +52,7 @@ And then use it:
 ```js
 console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 console.log(lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
-numToLezgiTTS(1986); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
+lezgiNumberTtsToFile(1986, '<path/to/mp3/files>', '<output/directory>'); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
 ```
 
 ### Browser
@@ -64,9 +66,52 @@ numToLezgiTTS(1986); // Audio of pronounced 'агъзурни кIуьд вишн
     // Convert Lezgi numerals to numbers
     alert(LezgiNumbers.lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
     // Play the audio of pronounced Lezgi numerals
-    LezgiNumbers.numToLezgiTTS(1986); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played
+    LezgiNumbers.playLezgiNumberTts(1986, '<path/to/mp3/files>'); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played
   } catch (e) {
     alert(e.message);
   }
 </script>
+```
+
+### Path to mp3 files
+
+You can provide the path to the mp3 files for the TTS. The mp3 files are located in the `mp3` directory in the root of the package. If you want to use your own mp3 files, you can provide the path to your mp3 files.
+
+Here is the structure of the `mp3` directory:
+
+```
+mp3
+├── ' .mp3'
+├── 'цIе.mp3'
+├── 'цIу.mp3'
+├── 'цIи.mp3'
+├── 'ни.mp3'
+├── 'рид.mp3'
+├── 'къанни.mp3'
+├── 'кьве.mp3'
+├── 'минус.mp3'
+├── 'нул.mp3'
+├── 'сад.mp3'
+├── 'кьвед.mp3'
+├── 'пуд.mp3'
+├── 'кьуд.mp3'
+├── 'вад.mp3'
+├── 'ругуд.mp3'
+├── 'ирид.mp3'
+├── 'муьжуьд.mp3'
+├── 'кIуьд.mp3'
+├── 'цIуд.mp3'
+├── 'къад.mp3'
+├── 'яхцIур.mp3'
+├── 'виш.mp3'
+├── 'агъзур.mp3'
+├── 'миллион.mp3'
+├── 'миллиард.mp3'
+├── 'триллион.mp3'
+├── 'квадриллион.mp3'
+├── 'квинтиллион.mp3'
+├── 'секстиллион.mp3'
+├── 'септиллион.mp3'
+├── 'октиллион.mp3'
+├── 'нониллион.mp3'
 ```

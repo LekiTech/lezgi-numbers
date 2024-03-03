@@ -56,33 +56,52 @@ function concatenateAudiosBrowser(urls: string[]) {
     });
 }
 
-export function concatenateAudios(input: string[], output: string = 'concatenated.mp3'): void {
-  if (typeof window === 'undefined') {
-    concatenateAudiosNode(input, output);
-  } else {
-    concatenateAudiosBrowser(input);
-  }
-}
-
-export function numToLezgiTTS(num: number): void {
+function numberToSpokenLezgiAudioFiles(num: number, audioFilesPath: string): string[] {
   const lezgiNumeralArray = numToLezgiArray(num);
   const audioFiles = lezgiNumeralArray
     .map((numeral) => (numeral !== ' ' ? numeral.trim() : ' '))
     .filter((numeral) => numeral !== '')
-    .map((numeral) => path.join(__dirname, `../static/arthur/mp3/${numeral}.mp3`));
-  concatenateAudios(audioFiles, `${num}.mp3`);
+    .map((numeral) => path.join(audioFilesPath, `${numeral}.mp3`));
+  return audioFiles;
 }
 
-numToLezgiTTS(17);
+/**
+ * Convert a number to spoken Lezgi Text-To-Speech audio file
+ *
+ * @param num number to convert to spoken Lezgi TTS audio file
+ * @param audioFilesPath path to the directory containing the base audio files
+ */
+export function lezgiNumberTtsToFile(num: number, audioFilesPath: string, outputDir: string): void {
+  const audioFiles = numberToSpokenLezgiAudioFiles(num, audioFilesPath);
+  concatenateAudiosNode(audioFiles, path.join(outputDir, `${num}.mp3`));
+}
+
+/**
+ * Play spoken Lezgi Text-To-Speech audio for a number
+ *
+ * @param num number to play as spoken Lezgi TTS audio
+ * @param audioFilesPath path to the directory containing the base audio files
+ */
+export function playLezgiNumberTts(num: number, audioFilesPath: string): void {
+  const audioFiles = numberToSpokenLezgiAudioFiles(num, audioFilesPath);
+  concatenateAudiosBrowser(audioFiles);
+}
 
 /*
 Unique audio parts are concatenated into a single audio file:
 [
+  // different parts that are not necessarily a number, but are used in the number system
+  " ",
   "цIе",
   "цIу",
   "цIи",
   "ни",
+  "рид", // from "ирид"
+  "къанни", // 20+
+  "кьве",
   "минус",
+  
+  // numbers
   "нул",
   "сад",
   "кьвед",
@@ -108,7 +127,4 @@ Unique audio parts are concatenated into a single audio file:
   "октиллион",
   "нониллион"
 ]
-  "рид",
-  "къанни",
-  "кьве",
 */
