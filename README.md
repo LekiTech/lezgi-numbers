@@ -38,13 +38,13 @@ npm i lezgi-numbers
 Import package like:
 
 ```js
-const { numToLezgi, lezgiToNum, numToLezgiTTS } = require('lezgi-numbers');
+const { numToLezgi, lezgiToNum, playLezgiNumberTts } = require('lezgi-numbers');
 ```
 
 Or
 
 ```ts
-import { numToLezgi, lezgiToNum, numToLezgiTTS } from 'lezgi-numbers';
+import { numToLezgi, lezgiToNum, playLezgiNumberTts } from 'lezgi-numbers';
 ```
 
 And then use it:
@@ -52,7 +52,9 @@ And then use it:
 ```js
 console.log(numToLezgi(1986)); // 'агъзурни кIуьд вишни кьудкъанни ругуд'
 console.log(lezgiToNum('кьве агъзурни къанни кьуд')); // 2024
-lezgiNumberTtsToFile(1986, '<path/to/mp3/files>', '<output/directory>'); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд' will be played in browser, in Node.js it will save the audio file in the current directory
+// Function below will work only if run in browser.
+// So it should be used either in SPA or if in SSR, it should be used in the client side.
+playLezgiNumberTts(1986, '<path/to/mp3/files>'); // Audio of pronounced 'агъзурни кIуьд вишни кьудкъанни ругуд'
 ```
 
 ### Browser

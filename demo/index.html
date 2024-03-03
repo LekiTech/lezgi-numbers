@@ -5,20 +5,9 @@
     <meta charset="UTF-8" />
   </head>
   <body>
-    <script src="https://unpkg.com/lezgi-numbers@1.0.3/dist/lezgi-numbers.js"></script>
+    <script src="../dist/lezgi-numbers.js"></script>
 
     <h2>Lezgi numbers converter demo</h2>
-
-    <form>
-      <label for="any-number">Number:</label><br />
-      <input type="number" id="any-number" name="any-number" /><br />
-      <span id="number-in-lezgi"></span>
-      <br /><br />
-      <label for="lezgi-numeral">Lezgi numeral:</label><br />
-      <input type="text" id="lezgi-numeral" name="lezgi-numeral" /><br />
-      <span id="number-from-lezgi"></span>
-      <br /><br />
-    </form>
     <p>
       <b>Note:</b>
       <i>
@@ -27,7 +16,15 @@
       ><code>`python -m http.server`</code
       ><i> and open the browser at `http://localhost:8000/demo/` </i>
     </p>
+
+    <label for="any-number">Number:</label><br />
+    <input type="number" id="any-number" name="any-number" /><br />
+    <span id="number-in-lezgi"></span><br />
     <button onclick="play()">Play Text-To-Speech</button>
+    <br /><br />
+    <label for="lezgi-numeral">Lezgi numeral:</label><br />
+    <input type="text" id="lezgi-numeral" name="lezgi-numeral" /><br />
+    <span id="number-from-lezgi"></span>
 
     <script>
       document.getElementById('any-number').oninput = (e) => {
@@ -52,39 +49,15 @@
         }
       };
 
-      function concatenateAudiosBrowser(urls) {
-        // @ts-ignore
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        async function fetchAudio(url) {
-          const response = await fetch(url);
-          const arrayBuffer = await response.arrayBuffer();
-          return audioContext.decodeAudioData(arrayBuffer);
-        }
-
-        Promise.all(urls.map((url) => fetchAudio(url)))
-          .then((buffers) => {
-            let totalLength = buffers.reduce((acc, buffer) => acc + buffer.length, 0);
-            let output = audioContext.createBuffer(1, totalLength, audioContext.sampleRate);
-
-            let offset = 0;
-            buffers.forEach((buffer) => {
-              output.getChannelData(0).set(buffer.getChannelData(0), offset);
-              offset += buffer.length;
-            });
-            return output;
-          })
-          .then((concatenatedBuffer) => {
-            let source = audioContext.createBufferSource();
-            source.buffer = concatenatedBuffer;
-            source.connect(audioContext.destination);
-            source.start(0);
-          });
-      }
-      const audios = ['кьве', ' ', 'миллиард', 'ни', ' ', 'сад'];
-      const urls = audios.map((audio) => `../static/arthur/mp3/${audio}.mp3`);
       function play() {
-        concatenateAudiosBrowser(urls);
+        try {
+          // Get the number from the input
+          const num = parseInt(document.getElementById('any-number').value);
+          // Play the text-to-speech
+          LezgiNumbers.playLezgiNumberTts(num, '../static/arthur/mp3/');
+        } catch (e) {
+          console.error(e.message);
+        }
       }
     </script>
   </body>

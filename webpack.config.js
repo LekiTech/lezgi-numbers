@@ -9,6 +9,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js'],
+    fallback: {
+      fs: false,
+      path: false,
+    },
   },
   module: {
     rules: [{ test: /\.ts$/, loader: 'ts-loader' }],
